@@ -1,6 +1,7 @@
 package uz.moviesearch.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
@@ -10,11 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Data
-@Builder
-@Setter(onMethod=@__({@Autowired}))
+@JsonIgnoreProperties(ignoreUnknown = true)
 @ToString(of = "credit_id")
-@Component
-@Scope("prototype")
 public class Credits{
 
     private int cast_id;

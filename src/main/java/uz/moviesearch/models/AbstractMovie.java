@@ -28,7 +28,7 @@ public abstract class AbstractMovie {
     private List<String> images;
     private List<String> videos;
     private List<Person> credits;
-    private List<Genre> genres;
+    private List<Long> genre_ids;
     private Map<String, Object> external_ids;
 
 

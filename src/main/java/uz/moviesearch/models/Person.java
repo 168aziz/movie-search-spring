@@ -1,11 +1,15 @@
 package uz.moviesearch.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import lombok.ToString;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,13 +17,18 @@ import java.util.Map;
 
 @Data
 @Builder
-@Setter(onMethod=@__({@Autowired}))
-@Component
-@Scope("prototype")
+@ToString(of = {"id","name"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
-    private String known_for_department;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate deathday;
     private long id;
     private String name;
@@ -28,11 +37,12 @@ public class Person {
     private String biography;
     private String place_of_birth;
     private String profile_path;
-    private Map<String, AbstractMovie> movieList;
+    private String known_for_department;
     private double popularity;
     private String imdb_id;
     private String homepage;
     private Map<String, Object> external_ids;
+    private Map<String, AbstractMovie> movieList;
 
 
 

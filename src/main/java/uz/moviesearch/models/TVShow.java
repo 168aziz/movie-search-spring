@@ -1,9 +1,7 @@
 package uz.moviesearch.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,10 +9,9 @@ import java.util.List;
 
 
 @Data
-@Setter(onMethod=@__({@Autowired}))
 @EqualsAndHashCode(callSuper = true)
-@Component
-@Scope("prototype")
+@ToString(callSuper = true, of = "")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TVShow extends AbstractMovie {
 
     private LocalDate first_air_date;
