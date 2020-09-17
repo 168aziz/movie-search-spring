@@ -28,7 +28,6 @@ public class ReadFromTMDBService {
 
     private static Logger logger = getLogger(ReadFromTMDBService.class);
 
-
     @Value("${app.basicPath}")
     private String basicPath;
 

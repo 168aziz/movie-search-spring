@@ -1,14 +1,16 @@
 package uz.moviesearch.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__({@Autowired}))
-public class MovieService {
+public class MovieService extends AbstractService {
 
-    private final ReadFromTMDBService readFromTMDBService;
 
+    public MovieService(ReadFromTMDBService readFromTMDBService, ObjectMapper mapper) {
+        super(readFromTMDBService, mapper);
+    }
 
 }

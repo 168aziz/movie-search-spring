@@ -30,14 +30,8 @@
         <div class="container">
             <div class="search-inner">
                 <h1 class="title">Добро пожаловать в мир кино, мы желаем вам хорошо провести время</h1>
-                <form action="/search" class="form" method="GET">
+                <form action="/search" class="form" method="POST">
                     <input type="text" name="search" placeholder="Введите название..." class="search_input" required>
-                    <select name="type-of-search" id="" class="select_mate" data-mate-select="active" required>
-                        <option value="" disabled selected>Тип поиска</option>
-                        <option value="Movies">Фильмы</option>
-                        <option value="Seasons">Сериалы</option>
-                        <option value="Peoples">Люди</option>
-                    </select>
                     <div class="button-block">
                         <input type="submit" value="Отправить" class="btn search-btn">
                     </div>
@@ -46,16 +40,31 @@
         </div>
     </section>
 
-
     <section class="page-section movie-section">
         <div class="container">
             <div class="movie-inner">
-                <h2 class="movie-title">Лучшие недели</h2>
+                <h2 class="movie-title">Лучшие фильмы недели</h2>
                 <div class="movie-block">
                     <div th:each="movie : ${popularMovies}" class="movie_item">
                         <a th:href="@{'/movie?id='+${movie.id}}" class="movie_link">
                             <img class="lazy"
                                  th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${movie.poster_path}}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section movie-section">
+        <div class="container">
+            <div class="movie-inner">
+                <h2 class="movie-title">Лучшие сериалы недели</h2>
+                <div class="movie-block">
+                    <div th:each="tv : ${popularTVShows}" class="movie_item">
+                        <a th:href="@{'/movie?id='+${tv.id}}" class="movie_link">
+                            <img class="lazy"
+                                 th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${tv.poster_path}}"/>
                         </a>
                     </div>
                 </div>
