@@ -467,12 +467,13 @@ p {
     display: flex;
 }
 
-.filter-list {
+.triggers {
     display: flex;
 }
 
 .filter-item {
     margin-right: 25px;
+    transition: all 0.5s ease;
 }
 
 .filter-link {
@@ -1330,3 +1331,13 @@ table.credit_group tbody td.role span, table.credit_group tbody td.role span a {
     font-weight: bold;
     color: #000;
 }
+
+.tabs_block{
+    display: none;
+    transition: all 0.5s ease;
+}
+
+.tab-block--active{
+    display: block;
+}
+

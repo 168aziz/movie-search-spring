@@ -1,6 +1,5 @@
 package uz.moviesearch.models;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,7 +8,7 @@ import java.util.Map;
 
 @Data
 @ToString(of = {"id", "original_title"})
-public abstract class AbstractMovie {
+public abstract class Scene {
 
     private double popularity;
     private long vote_count;
@@ -24,7 +23,7 @@ public abstract class AbstractMovie {
     private String homepage;
     private String status;
     private String tagline;
-    private List<AbstractMovie> recommendations;
+    private List<Scene> recommendations;
     private List<String> images;
     private List<String> videos;
     private List<Person> credits;

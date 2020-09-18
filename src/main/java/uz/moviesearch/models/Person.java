@@ -42,7 +42,7 @@ public class Person {
     private String imdb_id;
     private String homepage;
     private Map<String, Object> external_ids;
-    private Map<String, AbstractMovie> movieList;
+    private Map<String, Scene> movieList;
 
 
 

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Мир КИНО</title>
@@ -17,7 +17,7 @@
 
 <body>
 
-<header class="header">
+<header  class="header" th:framgent="header">
     <nav class="nav">
         <div class="logo">
             <a href="/" class="logo-link">Мир <span>КИНО</span></a>
@@ -31,7 +31,8 @@
             <div class="search-inner">
                 <h1 class="title">Добро пожаловать в мир кино, мы желаем вам хорошо провести время</h1>
                 <form action="/search" class="form" method="POST">
-                    <input type="text" name="search" placeholder="Введите название..." class="search_input" required>
+                    <input type="text" name="search" placeholder="Введите название..." class="search_input"
+                           required>
                     <div class="button-block">
                         <input type="submit" value="Отправить" class="btn search-btn">
                     </div>

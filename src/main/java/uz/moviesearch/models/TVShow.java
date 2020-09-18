@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true, of = "")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TVShow extends AbstractMovie {
+public class TVShow extends Scene {
 
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -33,7 +33,7 @@ public class TVShow extends AbstractMovie {
     private int number_of_episodes;
     private int number_of_seasons;
     //TODO создать сущность Season и Episodes
-    private List<AbstractMovie> seasons;
+    private List<Scene> seasons;
 
 
 }

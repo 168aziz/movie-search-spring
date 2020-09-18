@@ -1,26 +1,18 @@
 package uz.moviesearch.service;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import uz.moviesearch.models.*;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
-
-import static uz.moviesearch.logger.LoggerInstance.getLogger;
 
 @Service
 @Scope("prototype")
 public class ParsingJSON {
 
 
-    private List<AbstractMovie> popular;
+    private List<Scene> popular;
 
     private static Logger logger;
 
