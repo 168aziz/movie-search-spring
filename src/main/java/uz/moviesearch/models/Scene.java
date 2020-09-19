@@ -1,6 +1,7 @@
 package uz.moviesearch.models;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
@@ -29,6 +30,5 @@ public abstract class Scene {
     private List<Person> credits;
     private List<Long> genre_ids;
     private Map<String, Object> external_ids;
-
 
 }

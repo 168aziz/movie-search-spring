@@ -2,6 +2,7 @@ package uz.moviesearch.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -36,6 +37,17 @@ public class TVShow extends Scene {
     private List<Scene> seasons;
 
 
+    @JsonProperty("original_name")
+    @Override
+    public String getOriginal_title() {
+        return super.getOriginal_title();
+    }
+
+    @JsonProperty("name")
+    @Override
+    public String getTitle() {
+        return super.getTitle();
+    }
 }
 
 

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@Builder
 @ToString(of = {"id","name"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
