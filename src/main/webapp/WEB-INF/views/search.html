@@ -29,7 +29,7 @@
     </nav>
 </header>
 
-<main class="main">
+<main class="main" th:attr="data-query=${query}">
     <section class="filter-section">
         <div class="container">
             <div class="filter-inner">
@@ -46,12 +46,12 @@
         </div>
     </section>
 
+
     <section class="movie-list-section page-section">
         <div class="container">
             <div class="movie-list-inner">
-
                 <div class="tabs_block" id="movies_tab">
-                    <div class="row">
+                    <div class="row" id="movie-row" th:attr="data-current-page=${movies.page},data-total-page=${movies.total_pages}">
                         <div th:each="movie:${movies.results}" class="movie_item col-xl-3">
                             <a th:href="@{'/movie/'+${movie.id}}" class="movie_link">
 
@@ -65,11 +65,15 @@
                             </a>
                             <p class="movie-name" th:text="${movie.title}"></p>
                         </div>
+                        <div class="col-xl-12" id="movieget" style="text-align: center"
+                             th:if="${movies.page<movies.total_pages}">
+                            <p class="btn search-btn" style="cursor: pointer" id="mbtn">Загрузить ещё</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="tabs_block" id="tvshow_tab">
-                    <div class="row">
+                    <div class="row" id="tvshow-row" th:attr="data-current-page=${tvShows.page},data-total-page=${tvShows.total_pages}">
                         <div th:each="tvshow:${tvShows.results}" class="movie_item col-xl-3">
                             <a th:href="@{'/movie/'+${tvshow.id}}" class="movie_link">
 
@@ -83,11 +87,14 @@
                             </a>
                             <p class="movie-name" th:text="${tvshow.title}"></p>
                         </div>
+                        <div class="col-xl-12" id="tvshowget" style="text-align: center" th:if="${tvShows.page<tvShows.total_pages}">
+                            <p class="btn search-btn" style="cursor: pointer" id="tbtn" >Загрузить ещё</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="tabs_block" id="people_tab">
-                    <div class="row">
+                    <div class="row" id="people-row" th:attr="data-current-page=${people.page},data-total-page=${people.total_pages}">
                         <div th:each="person:${people.results}" class="movie_item col-xl-3">
                             <a th:href="@{'/movie/'+${person.id}}" class="movie_link">
 
@@ -100,6 +107,9 @@
 
                             </a>
                             <p class="movie-name" th:text="${person.name}"></p>
+                        </div>
+                        <div class="col-xl-12" id="peopleget" style="text-align: center" th:if="${people.page<people.total_pages}">
+                            <p class="btn search-btn" style="cursor: pointer" id="pbtn">Загрузить ещё</p>
                         </div>
                     </div>
                 </div>

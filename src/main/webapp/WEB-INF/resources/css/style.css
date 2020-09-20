@@ -176,7 +176,7 @@ p {
 
 .movie_item, .person-item {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     flex-direction: column;
     align-items: center;
     border: none;
@@ -236,6 +236,7 @@ p {
 
 .btn:hover {
     background-color: #32c766;
+    color: #fff;
 }
 
 .bg-link {

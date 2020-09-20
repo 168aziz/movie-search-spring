@@ -9,7 +9,6 @@ import uz.moviesearch.models.*;
 import uz.moviesearch.service.PopularService;
 import uz.moviesearch.service.SearchService;
 
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -39,7 +38,8 @@ public class MainController {
 
         model.addAttribute("movies", movies)
                 .addAttribute("tvShows", tvShows)
-                .addAttribute("people", people);
+                .addAttribute("people", people)
+                .addAttribute("query", query);
         return "search";
     }
 
