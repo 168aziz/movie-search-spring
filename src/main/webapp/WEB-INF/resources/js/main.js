@@ -44,13 +44,13 @@ $(document).ready(function () {
 
 
     $('#mbtn').click(function () {
-        uploadMore('/upload-movie', moviesRow, movieget, 'movie');
+        uploadMore('/movie', moviesRow, movieget, 'movie');
     });
     $('#tbtn').click(function () {
-        uploadMore('/upload-movie', moviesRow, movieget, 'movie');
+        uploadMore('/tv', tvShowsRow, tvshowget, 'tv');
     });
     $('#pbtn').click(function () {
-        uploadMore('/upload-movie', moviesRow, movieget, 'movie');
+        uploadMore('/people', peopleRow, peopleget, 'people');
     });
 
     function uploadMore(url, row, beforeBlock, type) {
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: url,
+            url: '/upload' + url,
             data: {search: query, page: page, type: type},
             success: function (text) {
 

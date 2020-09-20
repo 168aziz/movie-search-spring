@@ -17,21 +17,47 @@ import java.util.Collections;
 
 @AllArgsConstructor(onConstructor = @__({@Autowired}))
 @Controller
+@RequestMapping("/upload")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SearchController {
 
     private final SearchService searchService;
 
 
-    @GetMapping("/upload-movie")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping({"movie", "tv"})
     public String uploadMovie(@RequestParam("search") String query,
                               @RequestParam(value = "page") long page,
                               @RequestParam("type") String type,
                               Model model) {
-        String path = "/search" + (type.equals("movie") ? "/movie" : "/tv");
-        ResultOfParse<Scene> sceneResultOfParse = searchService.searchScene(query, page, Movie.class).orElse(new ResultOfParse<>());
+
+        String path = "/search";
+        Class<?> clazz;
+        if (type.equals("movie")) {
+            path += "/movie";
+            clazz = Movie.class;
+        } else {
+            path += "/tv";
+            clazz = TVShow.class;
+        }
+
+
+        ResultOfParse<Scene> sceneResultOfParse = searchService.searchScene(query, page, clazz).orElse(new ResultOfParse<>());
         model.addAttribute("movies", sceneResultOfParse);
         return "movie";
     }
+
+
+    @GetMapping("people")
+    public String uploadPeople(@RequestParam("search") String query,
+                               @RequestParam(value = "page") long page,
+                               Model model) {
+
+        String path = "/search/people";
+
+        ResultOfParse<Scene> sceneResultOfParse = searchService.searchScene(query, page, Person.class).orElse(new ResultOfParse<>());
+        model.addAttribute("people", sceneResultOfParse);
+        return "people";
+    }
+
 
 }
