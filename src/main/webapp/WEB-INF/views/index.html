@@ -47,7 +47,7 @@
                 <h2 class="movie-title">Лучшие фильмы недели</h2>
                 <div class="movie-block">
                     <div th:each="movie : ${popularMovies}" class="movie_item">
-                        <a th:href="@{'/movie?id='+${movie.id}}" class="movie_link">
+                        <a th:href="@{'/movie/'+${movie.id}}" class="movie_link">
                             <img class="lazy"
                                  th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${movie.poster_path}}"/>
                         </a>
@@ -63,7 +63,7 @@
                 <h2 class="movie-title">Лучшие сериалы недели</h2>
                 <div class="movie-block">
                     <div th:each="tv : ${popularTVShows}" class="movie_item">
-                        <a th:href="@{'/movie?id='+${tv.id}}" class="movie_link">
+                        <a th:href="@{'/tv/'+${tv.id}}" class="movie_link">
                             <img class="lazy"
                                  th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${tv.poster_path}}"/>
                         </a>

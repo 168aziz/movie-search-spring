@@ -1,6 +1,7 @@
 package uz.moviesearch.configurations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
@@ -14,11 +15,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import uz.moviesearch.deserializer.LocalTimeDeserializer;
 
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -34,7 +37,7 @@ public class SpringAppConfig implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
-        stringConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "plain", UTF8)));
+        stringConverter.setSupportedMediaTypes(Collections.singletonList(new MediaType("text", "plain", UTF8)));
         converters.add(stringConverter);
 
     }
@@ -79,11 +82,22 @@ public class SpringAppConfig implements WebMvcConfigurer {
     }
 
 
-
     @Bean
     @Scope("prototype")
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
+
+
+    @Bean
+    @Primary
+    public ObjectMapper serializingObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer());
+        objectMapper.registerModule(javaTimeModule);
+        return objectMapper;
+    }
+
 
 }
