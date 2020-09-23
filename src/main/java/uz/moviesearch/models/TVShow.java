@@ -34,7 +34,7 @@ public class TVShow extends Scene {
     private int number_of_episodes;
     private int number_of_seasons;
     //TODO создать сущность Season и Episodes
-    private List<Scene> seasons;
+//    private List<Scene> seasons;
 
 
     @JsonProperty("original_name")

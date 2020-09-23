@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -75,7 +75,7 @@
                 <div class="tabs_block" id="tvshow_tab">
                     <div class="row" id="tvshow-row" th:attr="data-current-page=${tvShows.page},data-total-page=${tvShows.total_pages}">
                         <div th:each="tvshow:${tvShows.results}" class="movie_item col-xl-3">
-                            <a th:href="@{'/movie/'+${tvshow.id}}" class="movie_link">
+                            <a th:href="@{'/tv/'+${tvshow.id}}" class="movie_link">
 
                                 <img class="lazy" th:if="${tvshow.poster_path!=null}"
                                      th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${tvshow.poster_path}}"/>
@@ -96,7 +96,7 @@
                 <div class="tabs_block" id="people_tab">
                     <div class="row" id="people-row" th:attr="data-current-page=${people.page},data-total-page=${people.total_pages}">
                         <div th:each="person:${people.results}" class="movie_item col-xl-3">
-                            <a th:href="@{'/movie/'+${person.id}}" class="movie_link">
+                            <a th:href="@{'/person/'+${person.id}}" class="movie_link">
 
                                 <img class="lazy" th:if="${person.profile_path!=null}"
                                      th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${person.profile_path}}"/>

@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ToString(of = "credit_id")
-public class Credits{
+@ToString(of = "id")
+public class Credits {
 
-    private int cast_id;
-    private String character;
-    private int credit_id;
+    private long id;
+    private List<Cast> cast;
+    private List<Crew> crew;
 }

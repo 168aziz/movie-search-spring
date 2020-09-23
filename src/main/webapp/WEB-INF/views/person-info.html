@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${person.name}"></title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/reset.css" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/slick.css" th:href="@{/css/slick.css}"/>
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap" rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/style.css" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" class="logo-link">Мир <span>КИНО</span></a>
+        </div>
+    </nav>
+</header>
+
+
+<main class="main">
+
+    <div class="columns container person-columns">
+        <div class="right-column person-info-column">
+            <div class="person-img-block">
+                <img th:if="${person.profile_path!=null}"
+                     th:attr="data-src=@{'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+${person.profile_path}}"
+                     th:src="@{'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+${person.profile_path}}"
+                     th:alt="${person.name}" class="lazy poster-img">
+
+                <img th:if="${person.profile_path==null}" class="lazy"
+                     th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}"
+                     th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
+
+            </div>
+            <section class="facts left_column">
+                <div class="social_links">
+                    <div th:if="${person.external_ids.facebook_id!=null}">
+                        <a class="social_link" title="Посетить Facebook"
+                           th:href="@{'https://www.facebook.com/'+${person.external_ids.facebook_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 facebook"></span></a>
+                    </div>
+
+
+                    <div th:if="${person.external_ids.twitter_id!=null}">
+                        <a class="social_link" title="Посетить Twitter"
+                           th:href="@{'https://twitter.com/'+${person.external_ids.twitter_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 twitter"></span></a>
+                    </div>
+
+                    <div th:if="${person.external_ids.instagram_id!=null}">
+                        <a class="social_link" title="Посетить Instagram"
+                           th:href="@{'https://instagram.com/'+${person.external_ids.instagram_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 instagram"></span></a>
+                    </div>
+                    <div class="homepage" th:if="${person.external_ids.imdb_id!=null}">
+                        <a class="social_link" title="Перейти на сайт IMDB"
+                           th:href="@{'https://www.imdb.com/title/'+${person.external_ids.imdb_id}}"
+                           target="_blank" rel="noopener"
+                           data-role="tooltip"><span class="glyphicons_v2 justwatch"></span></a>
+                    </div>
+
+                    <div class="homepage" th:if="${person.homepage!=null}">
+                        <a class="social_link" title="Посетить Домашнюю страницу"
+                           th:href="@{${person.homepage}}" target="_blank" rel="noopener"
+                           data-role="tooltip"><span class="glyphicons_v2 link"></span></a>
+                    </div>
+
+                </div>
+                <h3>
+                    <bdi>Персональная информация</bdi>
+                </h3>
+                <section>
+                    <p><strong>
+                        <bdi>Известность за</bdi>
+                    </strong><span th:text="${person.known_for_department}"></span></p>
+                    <p><strong>
+                        <bdi>Известно авторство</bdi>
+                    </strong> <span th:text="54"></span>
+                    </p>
+                    <p><strong>
+                        <bdi>Пол</bdi>
+                        <span th:text=" ${person.gender}"></span>
+                    </strong>
+                    </p>
+                    <p class="full">
+                        <strong>
+                            <bdi>Дата рождения</bdi>
+                        </strong>
+                        <span th:text="${person.birthday}+' ('+${age}+' лет)' "></span>
+                    </p>
+                    <p class="full"><strong>
+                        <bdi>Место рождения</bdi>
+                    </strong> <span th:text="${person.place_of_birth}"></span>
+                    </p>
+                    <p class="full true">
+                        <strong>
+                            <bdi>Также известность как</bdi>
+                        </strong>
+                    </p>
+                    <ul>
+                        <li th:each="item : ${person.also_known_as}" itemprop="additionalName" th:text="${item}"></li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+
+        <div class="left-column person-right-column">
+            <section class="person-info-section page-section">
+                <h2 class="person-name-surname" th:text="${person.name}"></h2>
+                <div class="full_wrapper">
+                    <h3 dir="auto">Биография</h3>
+                    <div dir="auto" class="biography true">
+                        <div class="content fade_text">
+                            <div class="text initial">
+                                <p style="font-size: 15px" th:text="${person.biography}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="full_wrapper">
+                <div id="known_for">
+                    <h3 dir="auto">Известность за</h3>
+
+                    <div id="known_for_scroller" class="scroller_wrap should_fade is_fading">
+                        <ul class="horizontal_media_list scroller">
+                            <li th:each=" cast : ${person.credits.cast}" class="account_adult_false item_adult_false">
+                                <div class="image">
+                                    <a th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                        <img class="poster lazy" th:if="${cast.poster_path!=null}"
+                                             th:attr="data-src=@{'https://image.tmdb.org/t/p/w150_and_h225_bestv2'+${cast.poster_path}}"
+                                             alt="${title}"
+                                             th:src="@{'https://image.tmdb.org/t/p/w150_and_h225_bestv2'+${cast.poster_path}}"
+                                             data-loaded="true">
+                                        <img class="lazy" th:if="${cast.poster_path==null}"
+                                             th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
+
+                                    </a>
+                                </div>
+                                <p><a class="title" th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                    <bdi th:text="${cast.title}"></bdi>
+                                </a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="full_wrapper credits">
+                <div class="credits_list">
+
+                    <h3 class="zero">Актёрское искусство</h3>
+
+                    <table class="card credits" border="0" cellspacing="0" cellpadding="0" data-role="tooltip">
+
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">—</td>
+                                        <td class="seperator"><span data-url="/movie/664469"
+                                                                    data-id="5e21015520af77001637e081"
+                                                                    data-type="movie" data-slug="664469"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/664469">
+                                                <bdi>Untitled David O. Russell Film</bdi>
+                                            </a>
+                                            <span class="group"> </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="year">—</td>
+                                        <td class="seperator"><span data-url="/movie/425904"
+                                                                    data-id="5828d5ea9251417b2c02e35b"
+                                                                    data-type="movie" data-slug="425904"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/425904">
+                                                <bdi>Untitled Pirates of the Caribbean
+                                                    Reboot
+                                                </bdi>
+                                            </a>
+                                            <span class="group"> </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/616915"
+                                                                    data-id="5d32c07a6a300b5922afbfad"
+                                                                    data-type="movie" data-slug="616915"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/616915">
+                                                <bdi>The Paper Bag Princess</bdi>
+                                            </a>
+
+                                            <span class="group"> </span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/472639"
+                                                                    data-id="59a14afe92514177a702754d"
+                                                                    data-type="movie" data-slug="472639"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/472639">
+                                                <bdi>Untitled Harley Quinn &amp; The Joker
+                                                    Project
+                                                </bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Harley Quinn</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/346698"
+                                                                    data-id="5590ddde925141758c00022d"
+                                                                    data-type="movie" data-slug="346698"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/346698">
+                                                <bdi>Барби</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Barbie</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/451174"
+                                                                    data-id="58e8ecdec3a36872ee066b17"
+                                                                    data-type="movie" data-slug="451174"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/451174">
+                                                <bdi>Ruin</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Elsa Brzezina</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/512554"
+                                                                    data-id="5aae0e870e0a267833021f3e"
+                                                                    data-type="movie" data-slug="512554"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/512554">
+                                                <bdi>Queen of the Air</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Lillian Leitzel</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/512552"
+                                                                    data-id="5aae0dc3c3a36846c301ef27"
+                                                                    data-type="movie" data-slug="512552"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/512552">
+                                                <bdi>Bad Monkeys</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Jane Charlotte</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/445509"
+                                                                    data-id="58be4b54925141609b056e65"
+                                                                    data-type="movie" data-slug="445509"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/445509">
+                                                <bdi>Marian</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Maid Marian</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/416649"
+                                                                    data-id="57df12fd9251413d740098f7"
+                                                                    data-type="movie" data-slug="416649"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/416649">
+                                                <bdi>Gotham City Sirens</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Harleen Quinzel / Harley
+                                Quinn</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/389014"
+                                                                    data-id="56f0b35392514118350017d4"
+                                                                    data-type="movie" data-slug="389014"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/389014">
+                                                <bdi>Dangerous Odds</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Marisa Lankester</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2021</td>
+
+                                        <td class="seperator"><span data-url="/movie/436969"
+                                                                    data-id="5886bfcd925141197d001333"
+                                                                    data-type="movie" data-slug="436969"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/436969">
+                                                <bdi>Отряд самоубийц 2</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Harleen Quinzel / Harley
+                                Quinn</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2020</td>
+
+                                        <td class="seperator"><span data-url="/movie/522478"
+                                                                    data-id="5aedd2949251411d360096d0"
+                                                                    data-type="movie" data-slug="522478"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/522478">
+                                                <bdi>Кролик Питер 2</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Flopsy (Voice)</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2020</td>
+
+                                        <td class="seperator"><span data-url="/movie/695497"
+                                                                    data-id="5e9e3e88d05a030020bda6f2"
+                                                                    data-type="movie" data-slug="695497"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/695497">
+                                                <bdi>420 Awards - 2nd Annual Event</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Herself (archive footage)</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2020</td>
+
+                                        <td class="seperator"><span data-url="/movie/495764"
+                                                                    data-id="5a4acab00e0a262dce01ae5a"
+                                                                    data-type="movie" data-slug="495764"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/495764">
+                                                <bdi>Хищные птицы: Потрясающая история Харли
+                                                    Квинн
+                                                </bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Harleen Quinzel / Harley
+                                Quinn</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2019</td>
+
+                                        <td class="seperator"><span data-url="/movie/525661"
+                                                                    data-id="5b03817e0e0a2623ec020e0b"
+                                                                    data-type="movie" data-slug="525661"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/525661">
+                                                <bdi>Скандал</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Kayla Pospisil</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2019</td>
+
+                                        <td class="seperator"><span data-url="/movie/466272"
+                                                                    data-id="5967b00b92514134180055cf"
+                                                                    data-type="movie" data-slug="466272"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/466272">
+                                                <bdi>Однажды в… Голливуде</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Sharon Tate</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2019</td>
+
+                                        <td class="seperator"><span data-url="/movie/480434"
+                                                                    data-id="59dc7292c3a36861ec06ed54"
+                                                                    data-type="movie" data-slug="480434"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/480434">
+                                                <bdi>Страна грез</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Allison Wells</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/457136"
+                                                                    data-id="59149a94925141572300f9b1"
+                                                                    data-type="movie" data-slug="457136"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/457136">
+                                                <bdi>Две королевы</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Queen Elizabeth I</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/457943"
+                                                                    data-id="591b3ebb92514105da066056"
+                                                                    data-type="movie" data-slug="457943"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/457943">
+                                                <bdi>Правила бойни</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Audrey</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/385332"
+                                                                    data-id="56d5f27cc3a3681e44019d42"
+                                                                    data-type="movie" data-slug="385332"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/385332">
+                                                <bdi>Конченая</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Annie / Bonnie</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/521353"
+                                                                    data-id="5ae664349251410cfa00415c"
+                                                                    data-type="movie" data-slug="521353"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/521353">
+                                                <bdi>Flopsy Turvy</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Flopsy Rabbit / Narrator
+                                (voice)</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/381719"
+                                                                    data-id="56b86e2c925141075500447d"
+                                                                    data-type="movie" data-slug="381719"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/381719">
+                                                <bdi>Кролик Питер</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Flopsy Rabbit / Narrator
+                                (voice)</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2017</td>
+
+                                        <td class="seperator"><span data-url="/movie/389015"
+                                                                    data-id="56f0b45992514147d8001376"
+                                                                    data-type="movie" data-slug="389015"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/389015">
+                                                <bdi>Тоня против всех</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Tonya Harding</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2017</td>
+
+                                        <td class="seperator"><span data-url="/movie/418680"
+                                                                    data-id="57edbf49c3a36817a5001148"
+                                                                    data-type="movie" data-slug="418680"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/418680">
+                                                <bdi>Прощай, Кристофер Робин</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Daphne Milne</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/426222"
+                                                                    data-id="582bdc8892514111b10034bf"
+                                                                    data-type="movie" data-slug="426222"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/426222">
+                                                <bdi>Дэвид Блейн: Реальность или магия</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/297761"
+                                                                    data-id="543ff1520e0a2651dc0003fa"
+                                                                    data-type="movie" data-slug="297761"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/297761">
+                                                <bdi>Отряд самоубийц</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Harleen Quinzel / Harley
+                                Quinn</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/258489"
+                                                                    data-id="531b5d0b92514177bf0040a0"
+                                                                    data-type="movie" data-slug="258489"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/258489">
+                                                <bdi>Тарзан. Легенда</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Jane Porter</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/408627"
+                                                                    data-id="579b2083c3a3687e6300682d"
+                                                                    data-type="movie" data-slug="408627"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/408627">
+                                                <bdi>Australian Psycho</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Margot Robbie</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/279641"
+                                                                    data-id="53b2acb60e0a265979009efa"
+                                                                    data-type="movie" data-slug="279641"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/279641">
+                                                <bdi>Репортёрша</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Tanya Vanderpoel</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2016</td>
+
+                                        <td class="seperator"><span data-url="/movie/378674"
+                                                                    data-id="56a18156c3a36858c601103c"
+                                                                    data-type="movie" data-slug="378674"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/378674">
+                                                <bdi>DC Films Presents Dawn of the Justice
+                                                    League
+                                                </bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2015</td>
+
+                                        <td class="seperator"><span data-url="/movie/318846"
+                                                                    data-id="54b9978fc3a3686c6b005e71"
+                                                                    data-type="movie" data-slug="318846"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/318846">
+                                                <bdi>Игра на понижение</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2015</td>
+
+                                        <td class="seperator"><span data-url="/movie/193687"
+                                                                    data-id="51946f7b760ee348fc0f0986"
+                                                                    data-type="movie" data-slug="193687"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/193687">
+                                                <bdi>Z – значит Захария</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Ann Burden</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2015</td>
+
+                                        <td class="seperator"><span data-url="/tv/63498"
+                                                                    data-id="55be9c12c3a36838b00055ca"
+                                                                    data-type="tv" data-slug="63498"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/63498">
+                                                <bdi>Закрытая вчтреча с Голливудским
+                                                    репортёром
+                                                </bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/63498/episodes?credit_id=5e4033fb3dd126001653ef34&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2015</td>
+
+                                        <td class="seperator"><span data-url="/tv/72649"
+                                                                    data-id="59591a9cc3a36825e8023917"
+                                                                    data-type="tv" data-slug="72649"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/72649">
+                                                <bdi>Hot Ones</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/72649/episodes?credit_id=5ea76e06cc96830023ae2a65&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2015</td>
+
+                                        <td class="seperator"><span data-url="/movie/256591"
+                                                                    data-id="530788f6925141111a000142"
+                                                                    data-type="movie" data-slug="256591"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/256591">
+                                                <bdi>Фокус</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Jess Barrett</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2014</td>
+
+                                        <td class="seperator"><span data-url="/movie/271674"
+                                                                    data-id="53801f250e0a2624c70069f4"
+                                                                    data-type="movie" data-slug="271674"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/271674">
+                                                <bdi>Французская сюита</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Celine Joseph</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2013</td>
+
+                                        <td class="seperator"><span data-url="/movie/106646"
+                                                                    data-id="4fa4ff0d19c295625900327a"
+                                                                    data-type="movie" data-slug="106646"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/106646">
+                                                <bdi>Волк с Уолл-стрит</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Naomi Lapaglia</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2013</td>
+
+                                        <td class="seperator"><span data-url="/movie/122906"
+                                                                    data-id="5016f26e19c295554d008194"
+                                                                    data-type="movie" data-slug="122906"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/122906">
+                                                <bdi>Бойфренд из будущего</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Charlotte</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2011</td>
+
+                                        <td class="seperator"><span data-url="/tv/39259"
+                                                                    data-id="5258ef8e760ee346618edebd"
+                                                                    data-type="tv" data-slug="39259"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/39259">
+                                                <bdi>Пэн Американ</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/39259/episodes?credit_id=5258ef8f760ee346618ee186&amp;person_id=4daaafc67b9aa175560003c6">14
+                                  эпизодов</a>)</span> как <span class="character">Laura Cameron</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2009</td>
+
+                                        <td class="seperator"><span data-url="/movie/61767"
+                                                                    data-id="4daaaedd7b9aa16b75002368"
+                                                                    data-type="movie" data-slug="61767"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/61767">
+                                                <bdi>I.C.U.</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character">Tristan Waters</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2008</td>
+
+                                        <td class="seperator"><span data-url="/movie/238349"
+                                                                    data-id="528c9d9919c2957981049831"
+                                                                    data-type="movie" data-slug="238349"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/238349">
+                                                <bdi>Виджиланте</bdi>
+                                            </a>
+
+                                            <span class="group"> как <span class="character">Cassandra</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2007</td>
+
+                                        <td class="seperator"><span data-url="/tv/1220"
+                                                                    data-id="525418ce19c295794038f678"
+                                                                    data-type="tv" data-slug="1220"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/1220">
+                                                <bdi>Шоу Грэма Нортона</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/1220/episodes?credit_id=59e0bdfbc3a36861df0c92da&amp;person_id=4daaafc67b9aa175560003c6">4
+                                  эпизодов</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2006</td>
+
+                                        <td class="seperator"><span data-url="/tv/6809"
+                                                                    data-id="52578869760ee36aaa655153"
+                                                                    data-type="tv" data-slug="6809"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/6809">
+                                                <bdi>Муравей</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/6809/episodes?credit_id=55df5b1bc3a36813bb000105&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">1997</td>
+
+                                        <td class="seperator"><span data-url="/tv/2221"
+                                                                    data-id="52572814760ee3776a289a3b"
+                                                                    data-type="tv" data-slug="2221"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/2221">
+                                                <bdi>Взгляд</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/2221/episodes?credit_id=5e39a6e60c2710001574abc5&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">1985</td>
+
+                                        <td class="seperator"><span data-url="/tv/2674"
+                                                                    data-id="52573f6a760ee36aaa077a8f"
+                                                                    data-type="tv" data-slug="2674"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/2674">
+                                                <bdi>Соседи</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/2674/episodes?credit_id=5257407d760ee36aaa094ed9&amp;person_id=4daaafc67b9aa175560003c6">699
+                                  эпизодов</a>)</span> как <span class="character">Donna Freedman</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">1975</td>
+
+                                        <td class="seperator"><span data-url="/tv/1667"
+                                                                    data-id="52570fbd760ee3776a0b130e"
+                                                                    data-type="tv" data-slug="1667"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/1667">
+                                                <bdi>Субботним вечером в прямом эфире</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/1667/episodes?credit_id=5bb0ad2e0e0a263a1001367b&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself - Host</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">1953</td>
+
+                                        <td class="seperator"><span data-url="/tv/27023"
+                                                                    data-id="52588252760ee346613be962"
+                                                                    data-type="tv" data-slug="27023"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/27023">
+                                                <bdi>Церемония вручения премии «Оскар»</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/27023/episodes?credit_id=5e44cf039603310015f4a9be&amp;person_id=4daaafc67b9aa175560003c6">1
+                                  эпизод</a>)</span> как <span class="character">Herself</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <h3 class="one">Продакшн</h3>
+
+                    <table class="card credits" border="0" cellspacing="0" cellpadding="0" data-role="tooltip">
+
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/664001"
+                                                                    data-id="5e1f1ddc5c071b00166424ba"
+                                                                    data-type="movie" data-slug="664001"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/664001">
+                                                <bdi>My Year of Rest and Relaxation</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/631837"
+                                                                    data-id="5d8057778e20c5002434bcfc"
+                                                                    data-type="movie" data-slug="631837"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/631837">
+                                                <bdi>Fool's Day</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Исполнительный продюсер
+                              </span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/616921"
+                                                                    data-id="5d32c6a06a300b5922afd1f1"
+                                                                    data-type="movie" data-slug="616921"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/616921">
+                                                <bdi>Barbed Wire Heart</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/616920"
+                                                                    data-id="5d32c57c2f8d094522d8a86c"
+                                                                    data-type="movie" data-slug="616920"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/616920">
+                                                <bdi>Beautiful Things</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/616919"
+                                                                    data-id="5d32c353caab6d1640a7f357"
+                                                                    data-type="movie" data-slug="616919"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/616919">
+                                                <bdi>Big Gay Jamboree</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/616915"
+                                                                    data-id="5d32c07a6a300b5922afbfad"
+                                                                    data-type="movie" data-slug="616915"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/616915">
+                                                <bdi>The Paper Bag Princess</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/512552"
+                                                                    data-id="5aae0dc3c3a36846c301ef27"
+                                                                    data-type="movie" data-slug="512552"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/512552">
+                                                <bdi>Bad Monkeys</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/346698"
+                                                                    data-id="5590ddde925141758c00022d"
+                                                                    data-type="movie" data-slug="346698"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/346698">
+                                                <bdi>Барби</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/612212"
+                                                                    data-id="5d18e82a8a84d20021cc29c9"
+                                                                    data-type="movie" data-slug="612212"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/612212">
+                                                <bdi>Augmented</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/528319"
+                                                                    data-id="5b15a8390e0a262ddc00d788"
+                                                                    data-type="movie" data-slug="528319"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/528319">
+                                                <bdi>Firefighters</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/445509"
+                                                                    data-id="58be4b54925141609b056e65"
+                                                                    data-type="movie" data-slug="445509"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/445509">
+                                                <bdi>Marian</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">—</td>
+
+                                        <td class="seperator"><span data-url="/movie/416649"
+                                                                    data-id="57df12fd9251413d740098f7"
+                                                                    data-type="movie" data-slug="416649"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/416649">
+                                                <bdi>Gotham City Sirens</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Исполнительный продюсер
+                              </span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2020</td>
+                                        <td class="seperator"><span data-url="/movie/582014"
+                                                                    data-id="5c64810cc3a368349fd5d01a"
+                                                                    data-type="movie" data-slug="582014"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/582014">
+                                                <bdi>Девушка, подающая надежды</bdi>
+                                            </a>
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="year">2020</td>
+                                        <td class="seperator"><span data-url="/movie/495764"
+                                                                    data-id="5a4acab00e0a262dce01ae5a"
+                                                                    data-type="movie" data-slug="495764"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/495764">
+                                                <bdi>Хищные птицы: Потрясающая история Харли
+                                                    Квинн
+                                                </bdi>
+                                            </a>
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2019</td>
+                                        <td class="seperator"><span data-url="/tv/84584"
+                                                                    data-id="5c0200ef92514169ad08318f"
+                                                                    data-type="tv" data-slug="84584"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/tv/84584">
+                                                <bdi>Куколка</bdi>
+                                            </a>
+
+                                            <span class="group"> <span>(<a class="tv"
+                                                                           href="/tv/84584/episodes?credit_id=5c0202660e0a26486a0481cb&amp;person_id=4daaafc67b9aa175560003c6">10
+                                  эпизодов</a>)</span> … <span class="role">Исполнительный продюсер
+                              </span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="year">2019</td>
+
+                                        <td class="seperator"><span data-url="/movie/480434"
+                                                                    data-id="59dc7292c3a36861ec06ed54"
+                                                                    data-type="movie" data-slug="480434"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/480434">
+                                                <bdi>Страна грез</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2018</td>
+
+                                        <td class="seperator"><span data-url="/movie/385332"
+                                                                    data-id="56d5f27cc3a3681e44019d42"
+                                                                    data-type="movie" data-slug="385332"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/385332">
+                                                <bdi>Конченая</bdi>
+                                            </a>
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2017</td>
+
+                                        <td class="seperator"><span data-url="/movie/389015"
+                                                                    data-id="56f0b45992514147d8001376"
+                                                                    data-type="movie" data-slug="389015"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/389015">
+                                                <bdi>Тоня против всех</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role">Продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="year">2009</td>
+
+                                        <td class="seperator"><span data-url="/movie/61767"
+                                                                    data-id="4daaaedd7b9aa16b75002368"
+                                                                    data-type="movie" data-slug="61767"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" href="/movie/61767">
+                                                <bdi>I.C.U.</bdi>
+                                            </a>
+
+                                            <span class="group"> … <span
+                                                    class="role">Ассоциированный продюсер</span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+</main>
+
+
+<script type="text/javascript" src="../resources/js/jquery.lazy.min.js" th:src="@{/js/jquery.lazy.min.js}"></script>
+<script type="text/javascript" src="../resources/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/main.js" th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

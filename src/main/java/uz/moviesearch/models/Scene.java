@@ -1,11 +1,9 @@
 package uz.moviesearch.models;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @ToString(of = {"id", "original_title"})
@@ -24,11 +22,15 @@ public abstract class Scene {
     private String homepage;
     private String status;
     private String tagline;
-    private List<Scene> recommendations;
-    private List<String> images;
-    private List<String> videos;
-    private List<Person> credits;
-    private List<Long> genre_ids;
-    private Map<String, Object> external_ids;
+    private List<Genre> genres;
+    private String imbd_id;
+    private List<ProductionCompany> production_companies;
+
+    private Credits credits;
+    private ResultOfParse<Scene> recommendations;
+    private Images images;
+    private List<Video> videos;
+    private External_ID external_id;
+
 
 }
