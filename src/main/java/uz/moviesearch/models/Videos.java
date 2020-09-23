@@ -1,5 +1,6 @@
 package uz.moviesearch.models;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -7,9 +8,8 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Images {
+public class Videos {
 
-    private List<Image> backdrops;
-    private List<Image> posters;
-    private List<Image> profiles;
+    private long id;
+    private List<Video> results;
 }

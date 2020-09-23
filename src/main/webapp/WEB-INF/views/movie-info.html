@@ -23,13 +23,14 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="" class="logo-link">Мир <span>КИНО</span></a>
+            <a href="/" class="logo-link">Мир <span>КИНО</span></a>
         </div>
     </nav>
 </header>
 
 <main class="main">
-    <section class="movie-info-section">
+    <section class="movie-info-section"
+             th:style="'background-image: url(' + @{'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces'+${movie.backdrop_path}} + ');'">
         <div class="movie-info-wrapper page-section">
             <div class="container">
                 <div class="movie-info-inner">
@@ -71,228 +72,95 @@
                 <h3 dir="auto" class="review">В главных ролях</h3>
                 <div id="cast_scroller" class="scroller_wrap should_fade is_hidden">
                     <ol class="people scroller">
-                        <li class="card">
-                            <a href="/person/${}">
-                                <img class="profile lazyload lazyloaded"
-                                     data-src="https://image.tmdb.org/t/p/w138_and_h175_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg"
-                                     data-srcset="https://image.tmdb.org/t/p/w138_and_h175_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg 1x, https://image.tmdb.org/t/p/w276_and_h350_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg 2x"
-                                     alt="Chris Hemsworth"
-                                     src="https://image.tmdb.org/t/p/w138_and_h175_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg"
-                                     srcset="https://image.tmdb.org/t/p/w138_and_h175_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg 1x, https://image.tmdb.org/t/p/w276_and_h350_face/kN7sPp4ObBcGHsgNQNwawNpuIky.jpg 2x"
+                        <li th:each="cast : ${movie.credits.cast}" class="card">
+                            <a th:href="@{'/person/'+${cast.id}}">
+                                <img th:if="${cast.profile_path!=null}" class="profile lazyload lazyloaded"
+                                     th:src="@{'https://image.tmdb.org/t/p/w138_and_h175_face'+${cast.profile_path}}"
+                                     th:alt="${cast.name}"
+                                     th:attr="data-src=@{'https://image.tmdb.org/t/p/w138_and_h175_face'+${cast.profile_path}}"
                                      data-loaded="true">
+                                <img th:if="${cast.profile_path==null}" class="lazy"
+                                     th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}"
+                                     th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
                             </a>
-                            <p><a href="/person/74568-chris-hemsworth?language=ru">Chris Hemsworth</a></p>
-                            <p class="character">Thor Odinson</p>
-                        </li>
-                        <li class="filler view_more">
-                            <p><a href="/movie/284053-thor-ragnarok/cast?language=ru">Смотреть ещё <span
-                                    class="glyphicons_v2 arrow-thin-right"></span></a></p>
+                            <p><a th:href="@{'/person/'+${cast.id}+'?language=ru'}" th:text="${cast.name}"></a></p>
+                            <p class="character" th:text="${cast.character}"></p>
                         </li>
                     </ol>
                     <div class="style_wrapper"></div>
                 </div>
             </section>
 
-            <section class="panel media_panel media scroller">
+            <section th:if="${movie.videos!=null|| movie.images.backdrops!=null || movie.images.posters!=null}"
+                     class="panel media_panel media scroller">
                 <div class="menu">
                     <h3 dir="auto" class="review">Медиа</h3>
                 </div>
                 <div id="media_scroller" class="scroller_wrap should_fade is_fading">
                     <div class="h_scroller content scroller">
-                        <div class="video card no_border">
-                            <div class="wrapper"
-                                 style="background-image: url('https://i.ytimg.com/vi/hOqwbPVQ_DY/hqdefault.jpg');">
-                                <a class="no_click play_trailer" href="/video/play?key=hOqwbPVQ_DY" data-site="YouTube"
-                                   data-id="hOqwbPVQ_DY" data-title="Тор: Рагнарёк - Trailer">
-                                    <div class="play_background"><span class="glyphicons_v2 play invert svg"></span>
-                                    </div>
-                                </a>
+                        <div class="video card no_border" th:if="${movie.videos!=null}">
+                            <div class="wrapper">
+                                <iframe width="560" height="300"
+                                        th:src="@{'https://www.youtube.com/embed/'+${movie.videos[0].key}}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div class="backdrop">
+                        <div class="backdrop" th:if="movie.images.backdrops!=null">
                             <img class="backdrop lazyload lazyloaded"
-                                 data-src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg"
-                                 data-srcset="https://image.tmdb.org/t/p/w533_and_h300_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg 1x, https://image.tmdb.org/t/p/w1066_and_h600_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg 2x"
-                                 alt="Тор: Рагнарёк"
-                                 src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg"
-                                 srcset="https://image.tmdb.org/t/p/w533_and_h300_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg 1x, https://image.tmdb.org/t/p/w1066_and_h600_bestv2/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg 2x"
+                                 th:attr="data-src=@{'https://image.tmdb.org/t/p/w533_and_h300_bestv2'+${movie.images.backdrops[1].file_path}}"
+                                 th:alt="${movie.title}"
+                                 th:src="@{'https://image.tmdb.org/t/p/w533_and_h300_bestv2'+${movie.images.backdrops[1].file_path}}"
+                                 data-loaded="true">
+                            <img class="backdrop lazyload lazyloaded"
+                                 th:attr="data-src=@{'https://image.tmdb.org/t/p/w533_and_h300_bestv2'+${movie.images.backdrops[0].file_path}}"
+                                 th:alt="${movie.title}"
+                                 th:src="@{'https://image.tmdb.org/t/p/w533_and_h300_bestv2'+${movie.images.backdrops[0].file_path}}"
                                  data-loaded="true">
                         </div>
-                        <div class="poster">
+                        <div class="poster" th:if="movie.images.posters!=null">
                             <img class="poster"
-                                 src="https://image.tmdb.org/t/p/w220_and_h330_face/7Ly1OGBLuYgRvHgvIRa8YytMKzH.jpg"
-                                 srcset="https://image.tmdb.org/t/p/w220_and_h330_face/7Ly1OGBLuYgRvHgvIRa8YytMKzH.jpg 1x, https://image.tmdb.org/t/p/w440_and_h660_face/7Ly1OGBLuYgRvHgvIRa8YytMKzH.jpg 2x"
-                                 alt="Тор: Рагнарёк">
+                                 th:attr="data-src=@{'https://image.tmdb.org/t/p/w220_and_h330_face'+${movie.images.posters[0].file_path}}"
+                                 th:alt="${movie.title}"
+                                 th:src="@{'https://image.tmdb.org/t/p/w220_and_h330_face'+${movie.images.posters[0].file_path}}">
+                        </div>
+                        <div class="filler view_more">
+                            <p><a href="/movie/284053-thor-ragnarok/cast?language=ru">Смотреть ещё <span
+                                    class="glyphicons_v2 arrow-thin-right"></span></a></p>
                         </div>
                     </div>
                 </div>
 
             </section>
 
-            <section class="panel recommendations scroller">
+            <section class="panel recommendations scroller"
+                     th:if="${not #lists.isEmpty(movie.recommendations.results)}">
                 <div id="recommendation_waypoint" style="">
                     <h3 dir="review">Рекомендации</h3>
                     <div id="recommendation_scroller" class="scroller_wrap should_fade is_fading">
                         <div class="scroller">
-                            <div class="item mini backdrop mini_card">
+                            <div th:each='recom : ${movie.recommendations.results}'
+                                 class="item mini backdrop mini_card">
                                 <div class="image_content">
-                                    <a href="/movie/315635" title="Человек-паук. Возвращение домой"
-                                       alt="Человек-паук. Возвращение домой">
-                                        <img class="backdrop lazyload lazyloaded"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg 2x"
-                                             alt="Человек-паук. Возвращение домой"
-                                             src="https://image.tmdb.org/t/p/w250_and_h141_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg"
-                                             srcset="https://image.tmdb.org/t/p/w250_and_h141_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg 2x"
+                                    <a th:href="@{'/'+${path}+'/'+${recom.id}}" th:title="${recom.title}"
+                                       th:alt="${recom.title}">
+                                        <img th:if="${recom.backdrop_path!=null}" class="backdrop lazyload lazyloaded"
+                                             th:attr="data-src= @{'https://image.tmdb.org/t/p/w250_and_h141_face'+${recom.backdrop_path}}"
+                                             th:alt="${recom.title}"
+                                             th:src="@{'https://image.tmdb.org/t/p/w250_and_h141_face'+${recom.backdrop_path}}"
                                              data-loaded="true">
+                                        <img th:if="${recom.backdrop_path==null}" class="lazy"
+                                             th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}"
+                                             th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}"/>
                                     </a>
                                 </div>
                                 <p class="movie flex">
-                                    <a class="title" href="/movie/315635" title="Человек-паук. Возвращение домой"
-                                       alt="Человек-паук. Возвращение домой">
-                                        <bdi>Человек-паук. Возвращение домой</bdi>
+                                    <a class="title" th:href="@{'/'+${path}+'/'+${recom.id}}" th:title="${recom.title}"
+                                       th:alt="${recom.title}">
+                                        <bdi th:text="${recom.title}"></bdi>
                                     </a>
-                                    <span class="vote_average">74%</span>
-                                </p>
-                            </div>
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/283995" title="Стражи Галактики. Часть 2"
-                                       alt="Стражи Галактики. Часть 2">
-                                        <img class="backdrop lazyload lazyloaded"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg 2x"
-                                             alt="Стражи Галактики. Часть 2"
-                                             src="https://image.tmdb.org/t/p/w250_and_h141_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg"
-                                             srcset="https://image.tmdb.org/t/p/w250_and_h141_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/aJn9XeesqsrSLKcHfHP4u5985hn.jpg 2x"
-                                             data-loaded="true">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/283995" title="Стражи Галактики. Часть 2"
-                                       alt="Стражи Галактики. Часть 2">
-                                        <bdi>Стражи Галактики. Часть 2</bdi>
-                                    </a>
-                                    <span class="vote_average">76%</span>
-                                </p>
-                            </div>
-
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/284054" title="Чёрная Пантера" alt="Чёрная Пантера">
-                                        <img class="backdrop lazyload lazyloaded"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg 2x"
-                                             alt="Чёрная Пантера"
-                                             src="https://image.tmdb.org/t/p/w250_and_h141_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg"
-                                             srcset="https://image.tmdb.org/t/p/w250_and_h141_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/6ELJEzQJ3Y45HczvreC3dg0GV5R.jpg 2x"
-                                             data-loaded="true">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/284054" title="Чёрная Пантера" alt="Чёрная Пантера">
-                                        <bdi>Чёрная
-                                            Пантера
-                                        </bdi>
-                                    </a>
-                                    <span class="vote_average">74%</span>
-                                </p>
-                            </div>
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/141052" title="Лига справедливости" alt="Лига справедливости">
-                                        <img class="backdrop lazyload lazyloaded"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg 2x"
-                                             alt="Лига справедливости"
-                                             src="https://image.tmdb.org/t/p/w250_and_h141_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg"
-                                             srcset="https://image.tmdb.org/t/p/w250_and_h141_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/jorgjEk6a0bed6jdR5wu4S6ZvRm.jpg 2x"
-                                             data-loaded="true">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/141052" title="Лига справедливости"
-                                       alt="Лига справедливости">
-                                        <bdi>Лига справедливости</bdi>
-                                    </a>
-                                    <span class="vote_average">62%</span>
-                                </p>
-                            </div>
-
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/363088" title="Человек-муравей и Оса" alt="Человек-муравей и Оса">
-                                        <img class="backdrop lazyload"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/6P3c80EOm7BodndGBUAJHHsHKrp.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/6P3c80EOm7BodndGBUAJHHsHKrp.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/6P3c80EOm7BodndGBUAJHHsHKrp.jpg 2x"
-                                             alt="Человек-муравей и Оса">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/363088" title="Человек-муравей и Оса"
-                                       alt="Человек-муравей и Оса">
-                                        <bdi>Человек-муравей и Оса</bdi>
-                                    </a>
-                                    <span class="vote_average">70%</span>
-                                </p>
-                            </div>
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/76338" title="Тор 2: Царство тьмы" alt="Тор 2: Царство тьмы">
-                                        <img class="backdrop lazyload"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/uhYoytlNaq46dG81wLmHqaSuzWu.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/uhYoytlNaq46dG81wLmHqaSuzWu.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/uhYoytlNaq46dG81wLmHqaSuzWu.jpg 2x"
-                                             alt="Тор 2: Царство тьмы">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/76338" title="Тор 2: Царство тьмы"
-                                       alt="Тор 2: Царство тьмы">
-                                        <bdi>Тор
-                                            2: Царство тьмы
-                                        </bdi>
-                                    </a>
-                                    <span class="vote_average">66%</span>
-                                </p>
-                            </div>
-
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/284052" title="Доктор Стрэндж" alt="Доктор Стрэндж">
-
-
-                                        <img class="backdrop lazyload"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/aL53oMdZKZRJRH8txH07DLuleF9.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/aL53oMdZKZRJRH8txH07DLuleF9.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/aL53oMdZKZRJRH8txH07DLuleF9.jpg 2x"
-                                             alt="Доктор Стрэндж">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/284052" title="Доктор Стрэндж" alt="Доктор Стрэндж">
-                                        <bdi>Доктор
-                                            Стрэндж
-                                        </bdi>
-                                    </a>
-                                    <span class="vote_average">74%</span>
-                                </p>
-                            </div>
-
-                            <div class="item mini backdrop mini_card">
-                                <div class="image_content">
-                                    <a href="/movie/271110" title="Первый мститель: Противостояние"
-                                       alt="Первый мститель: Противостояние">
-                                        <img class="backdrop lazyload"
-                                             data-src="https://image.tmdb.org/t/p/w250_and_h141_face/7FWlcZq3r6525LWOcvO9kNWurN1.jpg"
-                                             data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face/7FWlcZq3r6525LWOcvO9kNWurN1.jpg 1x, https://image.tmdb.org/t/p/w500_and_h282_face/7FWlcZq3r6525LWOcvO9kNWurN1.jpg 2x"
-                                             alt="Первый мститель: Противостояние">
-                                    </a>
-                                </div>
-                                <p class="movie flex">
-                                    <a class="title" href="/movie/271110" title="Первый мститель: Противостояние"
-                                       alt="Первый мститель: Противостояние">
-                                        <bdi>Первый мститель: Противостояние</bdi>
-                                    </a>
-                                    <span class="vote_average">74%</span>
+                                    <span class="vote_average" th:text="${recom.vote_average}+'%'"></span>
                                 </p>
                             </div>
                         </div>
@@ -314,13 +182,13 @@
                                        target="_blank" rel="noopener" data-role="tooltip"><span
                                             class="glyphicons_v2 facebook"></span></a>
                                 </div>
-                                <!--                                <div>-->
-                                <!--                                    <a class="social_link" title="Посетить Twitter"-->
-                                <!--                                       th:if="${movie.external_id.twitter_id!=null}"-->
-                                <!--                                       th:href="@{'https://twitter.com/'+${movie.external_id.twitter_id}}"-->
-                                <!--                                       target="_blank" rel="noopener" data-role="tooltip"><span-->
-                                <!--                                            class="glyphicons_v2 twitter"></span></a>-->
-                                <!--                                </div>-->
+                                <div>
+                                    <a class="social_link" title="Посетить Twitter"
+                                       th:if="${movie.external_id.twitter_id!=null}"
+                                       th:href="@{'https://twitter.com/'+${movie.external_id.twitter_id}}"
+                                       target="_blank" rel="noopener" data-role="tooltip"><span
+                                            class="glyphicons_v2 twitter"></span></a>
+                                </div>
                                 <div>
                                     <a class="social_link" title="Посетить Instagram"
                                        th:if="${movie.external_id.instagram_id!=null}"
@@ -328,15 +196,9 @@
                                        target="_blank" rel="noopener"
                                        data-role="tooltip"><span class="glyphicons_v2 instagram"></span></a>
                                 </div>
-                                <!--                                <div class="homepage">-->
-                                <!--                                    <a class="social_link" title="Посетить Домашнюю страницу"-->
-                                <!--                                       th:if="${movie.hompage!=null}" th:href="@{${movie.hompage}}"-->
-                                <!--                                       target="_blank" rel="noopener"-->
-                                <!--                                       data-role="tooltip"><span class="glyphicons_v2 link"></span></a>-->
-                                <!--                                </div>-->
                                 <div class="homepage">
                                     <a class="social_link" title="Посетить Домашнюю страницу"
-                                       href="https://marvel.com/movies/movie/222/thor_ragnarok" target="_blank"
+                                       th:href="@{${movie.homepage}}" target="_blank"
                                        rel="noopener"
                                        data-role="tooltip"><span class="glyphicons_v2 link"></span></a>
                                 </div>
@@ -351,14 +213,13 @@
                                 <bdi>Исходный язык</bdi>
                             </strong> <span th:text="${movie.original_language}"></span>
                             </p>
-                            <p><strong>
+                            <p th:if="${budget!='0' && path=='movie'}"><strong>
                                 <bdi>Бюджет</bdi>
                             </strong> $<span th:text="${budget}"></span>
                             </p>
-                            <p><strong>
+                            <p th:if="${revenue!='0' && path=='movie'}"><strong>
                                 <bdi>Сборы</bdi>
-                            </strong> $<span th:text="${revenue}"></span>
-                            </p>
+                            </strong> $<span th:text="${revenue}"></span></p>
                         </section>
                     </div>
                 </div>
@@ -368,9 +229,9 @@
 </main>
 
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="../resources/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script type="text/javascript" src="../resources/js/jquery.lazy.min.js" th:src="@{/js/jquery.lazy.min.js}"></script>
+<script type="text/javascript" src="../resources/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="../resources/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 

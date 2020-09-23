@@ -1,11 +1,9 @@
 package uz.moviesearch.models;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @ToString(of = {"id", "original_title"})

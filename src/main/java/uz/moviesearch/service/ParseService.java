@@ -55,6 +55,20 @@ public class ParseService extends AbstractParsingService {
         return Optional.ofNullable(result);
     }
 
+
+    public Optional<Person> parsePerson(String path, List<NameValuePair> parameters) {
+        String json = readFromTMDBService.read(path, parameters);
+        Person person = null;
+        if (json.isEmpty()) return Optional.empty();
+
+        try {
+            person = mapper.readValue(json, Person.class);
+        } catch (IOException e) {
+            logger.warn("Error reading JSON", e);
+        }
+        return Optional.ofNullable(person);
+    }
+
     public Optional<External_ID> parseExternal_IDs(String path, List<NameValuePair> parameters) {
         String json = readFromTMDBService.read(path, parameters);
         External_ID result = null;
@@ -97,4 +111,27 @@ public class ParseService extends AbstractParsingService {
         }
         return Optional.ofNullable(result);
     }
+
+    public List<Video> parseVideos(String path, List<NameValuePair> parameters) {
+        List<NameValuePair> params = new ArrayList<>(parameters);
+        String json = readFromTMDBService.read(path, params);
+        params.add(new BasicNameValuePair("language", ""));
+        String jsonDefault = readFromTMDBService.read(path, params);
+
+        List<Video> list = null;
+        try {
+            Videos videos = mapper.readValue(json, Videos.class);
+            Videos videosDef = mapper.readValue(jsonDefault, Videos.class);
+            list = new ArrayList<>();
+            if (videos.getResults() != null) list.addAll(videos.getResults());
+            if (videosDef.getResults() != null) list.addAll(videosDef.getResults());
+
+        } catch (IOException e) {
+            logger.warn("Error reading JSON", e);
+        }
+        if (list != null && list.isEmpty()) return null;
+        return list;
+    }
+
+
 }

@@ -7,13 +7,9 @@ import lombok.ToString;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString(of = "id")
-public class Crew {
+public class Crew extends Cast{
 
-    private String credit_id;
     private String department;
-    private Gender gender;
-    private long id;
     private String job;
-    private String name;
-    private String profile_path;
+
 }

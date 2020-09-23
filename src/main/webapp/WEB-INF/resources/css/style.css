@@ -624,7 +624,8 @@ p {
 }
 
 .movie-info-wrapper {
-    background-image: linear-gradient(to right, rgb(77, 109, 148) 150px, #0f4c86a9 100%);
+    background-image: linear-gradient(to right, #2948ff 150px, #2949ffc2 100%);
+
 }
 
 .movie-poster-block {
@@ -996,12 +997,14 @@ section.facts div.social_links a.social_link {
 
 .glyphicons_v2.instagram, .glyphicons_v2.instagram_id {
     background-image: url('https://www.themoviedb.org/assets/2/v4/glyphicons/social/instagram-74e6299c864adc384258da3b3a8eb09282b7ccda4dd1dfa9a4158ba2ea8583b9.svg');
+    border-right: 1px solid #d7d7d7;
+    padding-right: 8px;
 }
 
-section.facts div.social_links div + div.homepage {
-    border-left: 1px solid #d7d7d7;
-    padding-left: 8px;
-}
+/*section.facts div.social_links div + div.homepage {*/
+/*    border-left: 1px solid #d7d7d7;*/
+/*    padding-left: 8px;*/
+/*}*/
 
 section.facts div.social_links div + div {
     margin-left: 10px;
@@ -1333,12 +1336,17 @@ table.credit_group tbody td.role span, table.credit_group tbody td.role span a {
     color: #000;
 }
 
-.tabs_block{
+.tabs_block {
     display: none;
     transition: all 0.5s ease;
 }
 
-.tab-block--active{
+.tab-block--active {
     display: block;
+}
+
+
+.movie a {
+    overflow: hidden;
 }
 

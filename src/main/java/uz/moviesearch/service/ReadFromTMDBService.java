@@ -66,7 +66,6 @@ public class ReadFromTMDBService {
             } catch (IOException e) {
                 logger.warn("Connection error", e);
             }
-
             return jsonRequest;
         }).orElse(EMPTY_STRING);
 
@@ -74,7 +73,7 @@ public class ReadFromTMDBService {
 
 
     private Optional<URL> builder(String path, List<NameValuePair> parameters) {
-        logger = getLogger(ParsingJSON.class);
+        logger = getLogger(ReadFromTMDBService.class);
         URL build = null;
         try {
             URIBuilder builder = new URIBuilder(basicPath);
@@ -84,6 +83,7 @@ public class ReadFromTMDBService {
             if (!parameters.isEmpty())
                 builder.addParameters(parameters);
             build = builder.build().toURL();
+            System.out.println(build);
         } catch (URISyntaxException e) {
             logger.warn("Ошибка в билдере URL", e);
         } catch (MalformedURLException e) {

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@ToString(of = {"id","name"})
+@ToString(of = {"id", "name"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
 
@@ -32,7 +32,7 @@ public class Person {
     private long id;
     private String name;
     private List<String> also_known_as;
-    private String gender;
+    private Gender gender;
     private String biography;
     private String place_of_birth;
     private String profile_path;
@@ -40,9 +40,10 @@ public class Person {
     private double popularity;
     private String imdb_id;
     private String homepage;
-    private Map<String, Object> external_ids;
-    private Map<String, Scene> movieList;
+    private External_ID external_ids;
+    private Credits credits;
 
+    private Images images;
 
 
 }
