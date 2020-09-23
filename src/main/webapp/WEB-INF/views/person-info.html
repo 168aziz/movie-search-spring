@@ -142,7 +142,7 @@
                         <ul class="horizontal_media_list scroller">
                             <li th:each=" cast : ${person.credits.cast}" class="account_adult_false item_adult_false">
                                 <div class="image">
-                                    <a th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                    <a th:if="${cast.title!=null}" th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
                                         <img class="poster lazy" th:if="${cast.poster_path!=null}"
                                              th:attr="data-src=@{'https://image.tmdb.org/t/p/w150_and_h225_bestv2'+${cast.poster_path}}"
                                              alt="${title}"

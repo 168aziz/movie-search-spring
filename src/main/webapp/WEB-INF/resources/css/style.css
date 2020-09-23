@@ -1350,3 +1350,67 @@ table.credit_group tbody td.role span, table.credit_group tbody td.role span a {
     overflow: hidden;
 }
 
+@media (max-width: 1200px) {
+    .movie-poster-block {
+        width: 45%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .movie-poster-block {
+        width: 50%;
+    }
+
+    .left-column {
+        width: 71%;
+    }
+}
+
+@media (max-width: 803px) {
+    .overview p {
+        font-size: 17px;
+    }
+
+    .movie-info-title {
+        font-size: 1.8rem;
+    }
+
+    .movie-poster-block {
+        width: 80%;
+    }
+}
+
+
+@media (max-width: 646px) {
+    .poster-img, .person-img-block img {
+        width: auto;
+        height: auto;
+        max-width: 80%;
+    }
+
+    .movie-info-title {
+        font-size: 1.5rem;
+    }
+
+    .rating,
+    .view {
+        font-size: 1.3em;
+
+    }
+
+    .page-section {
+        padding: 10px 0;
+    }
+
+    .left-column {
+        width: 65%;
+    }
+
+    section.facts div.social_links div {
+        margin-bottom: 0;
+    }
+
+    section.facts div.social_links div + div {
+        margin-left: 0;
+    }
+}
