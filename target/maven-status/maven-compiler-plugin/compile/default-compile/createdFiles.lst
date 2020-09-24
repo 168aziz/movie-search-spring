@@ -11,7 +11,6 @@ uz\moviesearch\service\ParseService.class
 uz\moviesearch\configurations\DispatcherServletInitializer.class
 uz\moviesearch\models\ProductionCompany.class
 uz\moviesearch\service\SceneService.class
-uz\moviesearch\Main.class
 uz\moviesearch\models\Credits.class
 uz\moviesearch\models\Videos.class
 uz\moviesearch\models\Video.class
