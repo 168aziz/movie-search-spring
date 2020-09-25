@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${person.name}"></title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/reset.css" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/slick.css" th:href="@{/css/slick.css}"/>
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap" rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../resources/css/style.css" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" class="logo-link">Мир <span>КИНО</span></a>
+        </div>
+    </nav>
+</header>
+
+
+<main class="main">
+
+    <div class="columns container person-columns">
+        <div class="right-column person-info-column">
+            <div class="person-img-block">
+                <img th:if="${person.profile_path!=null}"
+                     th:attr="data-src=@{'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+${person.profile_path}}"
+                     th:src="@{'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+${person.profile_path}}"
+                     th:alt="${person.name}" class="lazy poster-img">
+
+                <img th:if="${person.profile_path==null}" class="lazy"
+                     th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}"
+                     th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
+
+            </div>
+            <section class="facts left_column">
+                <div class="social_links">
+                    <div th:if="${person.external_ids.facebook_id!=null}">
+                        <a class="social_link" title="Посетить Facebook"
+                           th:href="@{'https://www.facebook.com/'+${person.external_ids.facebook_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 facebook"></span></a>
+                    </div>
+
+
+                    <div th:if="${person.external_ids.twitter_id!=null}">
+                        <a class="social_link" title="Посетить Twitter"
+                           th:href="@{'https://twitter.com/'+${person.external_ids.twitter_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 twitter"></span></a>
+                    </div>
+
+                    <div th:if="${person.external_ids.instagram_id!=null}">
+                        <a class="social_link" title="Посетить Instagram"
+                           th:href="@{'https://instagram.com/'+${person.external_ids.instagram_id}}"
+                           target="_blank" rel="noopener" data-role="tooltip"><span
+                                class="glyphicons_v2 instagram"></span></a>
+                    </div>
+                    <div class="homepage" th:if="${person.external_ids.imdb_id!=null}">
+                        <a class="social_link" title="Перейти на сайт IMDB"
+                           th:href="@{'https://www.imdb.com/title/'+${person.external_ids.imdb_id}}"
+                           target="_blank" rel="noopener"
+                           data-role="tooltip"><span class="glyphicons_v2 justwatch"></span></a>
+                    </div>
+
+                    <div class="homepage" th:if="${person.homepage!=null}">
+                        <a class="social_link" title="Посетить Домашнюю страницу"
+                           th:href="@{${person.homepage}}" target="_blank" rel="noopener"
+                           data-role="tooltip"><span class="glyphicons_v2 link"></span></a>
+                    </div>
+
+                </div>
+                <h3>
+                    <bdi>Персональная информация</bdi>
+                </h3>
+                <section>
+                    <p><strong>
+                        <bdi>Известность за</bdi>
+                    </strong><span th:text="${person.known_for_department}"></span></p>
+                    <p><strong>
+                        <bdi>Известно авторство</bdi>
+                    </strong> <span th:text="54"></span>
+                    </p>
+                    <p><strong>
+                        <bdi>Пол</bdi>
+                        <span th:text=" ${person.gender}"></span>
+                    </strong>
+                    </p>
+                    <p class="full">
+                        <strong>
+                            <bdi>Дата рождения</bdi>
+                        </strong>
+                        <span th:text="${person.birthday}+' ('+${age}+' лет)' "></span>
+                    </p>
+                    <p class="full"><strong>
+                        <bdi>Место рождения</bdi>
+                    </strong> <span th:text="${person.place_of_birth}"></span>
+                    </p>
+                    <p class="full true">
+                        <strong>
+                            <bdi>Также известность как</bdi>
+                        </strong>
+                    </p>
+                    <ul>
+                        <li th:each="item : ${person.also_known_as}" itemprop="additionalName" th:text="${item}"></li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+
+        <div class="left-column person-right-column">
+            <section class="person-info-section page-section">
+                <h2 class="person-name-surname" th:text="${person.name}"></h2>
+                <div class="full_wrapper" th:if="${person.biography!=null}">
+                    <h3 dir="auto">Биография</h3>
+                    <div dir="auto" class="biography true">
+                        <div class="content fade_text">
+                            <div class="text initial">
+                                <p style="font-size: 15px" th:text="${person.biography}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="full_wrapper">
+                <div id="known_for">
+                    <h3 dir="auto">Известность за</h3>
+
+                    <div id="known_for_scroller" class="scroller_wrap should_fade is_fading">
+                        <ul class="horizontal_media_list scroller">
+                            <li th:if="${cast.title!=null}" th:each=" cast : ${person.credits.cast}"
+                                class="account_adult_false item_adult_false">
+                                <div class="image">
+                                    <a th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                        <img class="poster lazy" th:if="${cast.poster_path!=null}"
+                                             th:attr="data-src=@{'https://image.tmdb.org/t/p/w150_and_h225_bestv2'+${cast.poster_path}}"
+                                             alt="${title}"
+                                             th:src="@{'https://image.tmdb.org/t/p/w150_and_h225_bestv2'+${cast.poster_path}}"
+                                             data-loaded="true">
+                                        <img class="lazy" th:if="${cast.poster_path==null}"
+                                             th:src="@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
+
+                                    </a>
+                                </div>
+                                <p><a class="title" th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                    <bdi th:text="${cast.title}"></bdi>
+                                </a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="full_wrapper credits">
+                <div class="credits_list">
+
+                    <h3 class="zero" th:if="${person.credits.cast!=null}">Актёрское искусство</h3>
+
+                    <table class="card credits" border="0" cellspacing="0" cellpadding="0" data-role="tooltip"
+                           th:if="${person.credits.cast!=null}">
+
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+                                    <tbody>
+                                    <tr th:if="${cast.title!=null}" th:each=" cast : ${person.credits.cast}">
+                                        <td class="year" th:if="${cast.date!=null}"
+                                            th:text="${#temporals.year(cast.date)}">—
+                                        </td>
+
+                                        <td class="seperator"><span th:attr="data-type=${cast.media_type}"
+                                                                    class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" th:href="@{'/'+${cast.media_type}+'/'+${cast.id}}">
+                                                <bdi th:text="${cast.title}"></bdi>
+                                            </a>
+
+                                            <span class="group"> как <span
+                                                    class="character" th:text="${cast.character}"></span></span>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="one" th:if="${person.credits.crew!=null}">Продакшн</h3>
+
+                    <table class="card credits" border="0" cellspacing="0" cellpadding="0" data-role="tooltip"
+                           th:if="${person.credits.crew!=null}">
+
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="credit_group">
+
+                                    <tbody>
+                                    <tr th:if="${crew.title!=null}" th:each=" crew : ${person.credits.crew}">
+                                        <td class="year" th:text="${#temporals.year(crew.date)}">—</td>
+
+                                        <td class="seperator"><span
+                                                th:attr="data-type=${crew.media_type}"
+                                                class="glyphicons_v2 circle-empty account_adult_false item_adult_false"></span>
+                                        </td>
+
+                                        <td class="role false account_adult_false item_adult_false">
+                                            <a class="tooltip" th:href="@{'/'+${crew.media_type}+'/'+${crew.id}}">
+                                                <bdi th:text="${crew.title}"></bdi>
+                                            </a>
+
+                                            <span class="group"> … <span class="role"
+                                                                         th:text="${crew.job}"></span></span>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+</main>
+
+
+<script type="text/javascript" src="../resources/js/jquery.lazy.min.js" th:src="@{/js/jquery.lazy.min.js}"></script>
+<script type="text/javascript" src="../resources/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/main.js" th:src="@{/js/main.js}"></script>
+</body>
+
+</html>
