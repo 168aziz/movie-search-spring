@@ -6,10 +6,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import uz.moviesearch.models.Credits;
-import uz.moviesearch.models.External_ID;
-import uz.moviesearch.models.Images;
-import uz.moviesearch.models.Person;
+import uz.moviesearch.models.*;
 
 import java.util.List;
 import java.util.Optional;
