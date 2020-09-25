@@ -16,20 +16,20 @@ import java.time.LocalDate;
 public class Cast extends Person {
 
     private int cast_id;
-    private String character;
-    private String credit_id;
-    private String media_type;
+    protected String character;
+    protected String credit_id;
+    protected String media_type;
 
     @JsonAlias(value = {"name", "title"})
     @JsonProperty(defaultValue = "")
-    private String title;
-    private String poster_path;
+    protected String title;
+    protected String poster_path;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonAlias(value = {"first_air_date", "release_date"})
-    private LocalDate date;
+    protected LocalDate date;
 
 
 }

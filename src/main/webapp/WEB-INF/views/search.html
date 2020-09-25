@@ -51,15 +51,15 @@
         <div class="container">
             <div class="movie-list-inner">
                 <div class="tabs_block" id="movies_tab">
-                    <div class="row" id="movie-row" th:attr="data-current-page=${movies.page},data-total-page=${movies.total_pages}">
-                        <div th:each="movie:${movies.results}" class="movie_item col-xl-3">
+                    <div class="row justify-content-between" id="movie-row" th:attr="data-current-page=${movies.page},data-total-page=${movies.total_pages}">
+                        <div th:each="movie:${movies.results}" class="movie_item col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                             <a th:href="@{'/movie/'+${movie.id}}" class="movie_link">
 
-                                <img class="lazy" th:if="${movie.poster_path!=null}"
+                                <img class="lazy img-p" th:if="${movie.poster_path!=null}"
                                      th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${movie.poster_path}}"/>
 
 
-                                <img class="lazy" th:if="${movie.poster_path==null}"
+                                <img class="lazy img-p" th:if="${movie.poster_path==null}"
                                      th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
 
                             </a>
@@ -73,15 +73,15 @@
                 </div>
 
                 <div class="tabs_block" id="tvshow_tab">
-                    <div class="row" id="tvshow-row" th:attr="data-current-page=${tvShows.page},data-total-page=${tvShows.total_pages}">
-                        <div th:each="tvshow:${tvShows.results}" class="movie_item col-xl-3">
+                    <div class="row justify-content-between" id="tvshow-row" th:attr="data-current-page=${tvShows.page},data-total-page=${tvShows.total_pages}">
+                        <div th:each="tvshow:${tvShows.results}" class="movie_item col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                             <a th:href="@{'/tv/'+${tvshow.id}}" class="movie_link">
 
-                                <img class="lazy" th:if="${tvshow.poster_path!=null}"
+                                <img class="lazy img-p" th:if="${tvshow.poster_path!=null}"
                                      th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${tvshow.poster_path}}"/>
 
 
-                                <img class="lazy" th:if="${tvshow.poster_path==null}"
+                                <img class="lazy img-p" th:if="${tvshow.poster_path==null}"
                                      th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
 
                             </a>
@@ -94,15 +94,15 @@
                 </div>
 
                 <div class="tabs_block" id="people_tab">
-                    <div class="row" id="people-row" th:attr="data-current-page=${people.page},data-total-page=${people.total_pages}">
-                        <div th:each="person:${people.results}" class="movie_item col-xl-3">
+                    <div class="row justify-content-between" id="people-row" th:attr="data-current-page=${people.page},data-total-page=${people.total_pages}">
+                        <div th:each="person:${people.results}" class="movie_item col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                             <a th:href="@{'/person/'+${person.id}}" class="movie_link">
 
-                                <img class="lazy" th:if="${person.profile_path!=null}"
+                                <img class="lazy img-p" th:if="${person.profile_path!=null}"
                                      th:attr="data-src=@{'http://image.tmdb.org/t/p/w342'+${person.profile_path}}"/>
 
 
-                                <img class="lazy" th:if="${person.profile_path==null}"
+                                <img class="lazy img-p" th:if="${person.profile_path==null}"
                                      th:attr="data-src=@{https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg}">
 
                             </a>
