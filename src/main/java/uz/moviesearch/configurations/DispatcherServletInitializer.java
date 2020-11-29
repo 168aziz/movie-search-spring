@@ -1,6 +1,6 @@
 package uz.moviesearch.configurations;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter .CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
