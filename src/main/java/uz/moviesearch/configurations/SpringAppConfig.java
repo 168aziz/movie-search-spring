@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -25,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ComponentScan("uz.moviesearch")
@@ -73,16 +75,29 @@ public class SpringAppConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setCache(true);
         viewResolver.setCharacterEncoding("UTF-8");
         registry.viewResolver(viewResolver);
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/WEB-INF/resources/images/")
+                .setCachePeriod(31556926)
+                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
 
-        registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/resources/images/").setCachePeriod(31556926);
-        registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/resources/css/").setCachePeriod(31556926);
-        registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/").setCachePeriod(31556926);
+        registry
+                .addResourceHandler("/css/**")
+                .addResourceLocations("/WEB-INF/resources/css/")
+                .setCachePeriod(31556926)
+                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
+        registry
+                .addResourceHandler("/js/**")
+                .addResourceLocations("/WEB-INF/resources/js/")
+                .setCachePeriod(31556926)
+                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
+        ;
     }
 
 
@@ -102,6 +117,5 @@ public class SpringAppConfig implements WebMvcConfigurer {
         objectMapper.registerModule(javaTimeModule);
         return objectMapper;
     }
-
 
 }
